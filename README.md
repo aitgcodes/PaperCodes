@@ -1,7 +1,7 @@
 ## Plasmon Induced Charge Transfer Dynamics in Metallic Nanoparticle-MoSe2 Nanoﬂake Heterostructures
 The project contains all the input files related to the work.
 
-### The code structure
+### The code structure of GPAW input files
 
     1. **rlx**: The directory contains the input files for geometry relaxation and to generate the trajectory file.
     
@@ -25,3 +25,32 @@ The project contains all the input files related to the work.
                                  and the plasmon-induced direct charge transfer analysis. The energy decomposition codes were taken from 
                                  ACS Nano 2020; 14(8): 9963-9971.
 
+##  The code structure of OCTOPUS input files
+
+    Below, we explain the steps involved in computing the weighted transition probability for Jellium-TMD calculation using the OCTOPUS package.
+
+    inp_gs and inp_td are input files for the OCTOPUS calculation
+
+    Files named 'info' generated in the ground state calculation and 'projections' obtained in the time-dependent calculations are required 
+    for the post-processing.
+
+
+    Prepare an input file 'My_tdden.inp' as shown in Jellium_TDDFT/Post_process_files/compute_WTP/To_compute_TDMAT/My_tdden.inp to compute 
+    time-dependent density matrix. 
+    
+    Run tddenmat.py to compute the time-dependent density matrix. dmat.dat generated is used to compute the weighted transition probability. 
+
+
+   Compute the weights of the system of interest using int_cube.py in Jellium_TDDFT/Post_process_files/compute_weights. The weights are 
+   computed on the orbital density saved in the cube file format during the ground state calculations. 
+   Jellium_TDDFT/Post_process_files/compute_weights/my_code.py can be employed to compute the weights using int_cube.py for a multiple number of states. 
+
+
+   Once the weights of two regions in the cube file are computed, let's say region A and region B, weights.py in 
+   Jellium_TDDFT/Post_process_files/compute_WTP/To_compute_WTP_using_TDMAT is used to compute the product of 
+   weights of occupied states of region A and unoccupied states of region B.
+
+
+   Then,Jellium_TDDFT/Post_process_files/compute_WTP/To_compute_WTP_using_TDMAT/weighted_prob.py is employed to 
+   compute the product of the time-dependent density matrix with the product of weights. s_sum.py is used to compute
+   the total sum of all transition probability from the occupied state of region A to the unoccupied state of region B. s_sum.py needs the total number of time steps as argument.
