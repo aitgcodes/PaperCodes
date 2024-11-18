@@ -1,0 +1,61 @@
+CalculationMode = td
+
+ExperimentalFeatures = Yes
+
+UnitsOutput = eV_Angstrom
+
+SmearingFunction = fermi_dirac
+
+BoxShape = parallelepiped
+
+jrad = 10.5*angstrom
+
+jval = 86
+
+Parstates = No
+
+Spacing = 0.16*angstrom
+
+%Lsize
+16*angstrom | 16*angstrom | 23*angstrom
+%
+
+XYZCoordinates = "z-aligned-adjusted.xyz"
+
+%species
+'X' | species_jellium | jellium_radius | jrad | valence | jval
+'Mo' | species_pseudo | file | 'Mo.cpi' | lmax | 2| lloc | 0
+'Se' | species_pseudo | file | 'Se.GGA.fhi' | lmax | 3 | lloc | 2
+%
+
+XCFunctional = gga_x_pbe + gga_c_pbe
+
+
+ExtraStates = 100
+
+Mixing = 0.1
+
+Smearing = 0.02585*eV
+
+TDPropagator = aetrs
+TDMaxSteps = 40000
+TDTimeStep = 0.001*fs
+
+amplitude = 0.00001
+omega = 2.6*eV
+tau0 = 128.15905155
+t0 =  413.92428
+
+RestartFixedOccupations = yes
+
+
+%TDExternalFields
+  electric_field | 0 | 0 | 1 | omega | "envelope_fun"
+%
+
+%TDFunctions
+  "envelope_fun" | tdf_gaussian | amplitude | tau0 | t0
+%
+
+TDOutput = laser + multipoles +  energy + td_occup
+
