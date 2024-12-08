@@ -38,6 +38,6 @@ for i in range(len(list_t)):
     for t in list_t[i]:
         rho_MM_t = read_rho(t, "")
         rho_up = rho_MM_t - rho_MM_0
-        rho_g = ksd.get_density(calc.wfs, rho_up.imag)
+        rho_g = ksd.get_density(calc.wfs, rho_up.real)
         t_fs = t/1000
         write(f'{cubepath}/ind_{t_fs:.2f}fs.cube', calc.atoms, data=rho_g)

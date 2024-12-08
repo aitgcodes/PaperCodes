@@ -29,7 +29,7 @@ def ind_den(gpw_fpath, ksd_fpath, pulse_rho_dpath, ofpath, time):
     rho_MM_0 = read_rho(pulse_rho_dpath, 0, "")
     rho_MM_t = read_rho(pulse_rho_dpath, time, "")
     rho_up = rho_MM_t - rho_MM_0
-    rho_g = ksd.get_density(calc.wfs, rho_up.imag)
+    rho_g = ksd.get_density(calc.wfs, rho_up.real)
     t_fs = time/1000 # time from as to fs
     write(f'{ofpath}/ind_{t_fs:.2f}fs.cube', calc.atoms, data=rho_g)
 
